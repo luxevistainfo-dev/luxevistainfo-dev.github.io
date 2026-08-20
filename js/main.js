@@ -117,4 +117,64 @@ document.addEventListener("DOMContentLoaded", () => {
   setShareLinks();
   const y = $("#year");
   if (y) y.textContent = String(new Date().getFullYear());
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const bar = $("#progress");
+  const onScroll = () => {
+    if (bar) {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  if (!reduce) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.16 });
+    $all(".reveal").forEach((el) => io.observe(el));
+  } else {
+    $all(".reveal").forEach((el) => el.classList.add("in"));
+  }
+
+  const canvas = $("#paws");
+  if (canvas && !reduce && canvas.getContext) {
+    const ctx = canvas.getContext("2d");
+    const dots = [];
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    for (let i = 0; i < 18; i++) {
+      dots.push({
+        x: Math.random(),
+        y: Math.random(),
+        r: 1.2 + Math.random() * 2.2,
+        s: 0.15 + Math.random() * 0.35,
+        a: 0.15 + Math.random() * 0.35
+      });
+    }
+    const tick = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dots.forEach((d) => {
+        d.y -= d.s / 1000;
+        if (d.y < -0.05) d.y = 1.05;
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(232,214,176," + d.a + ")";
+        ctx.arc(d.x * canvas.width, d.y * canvas.height, d.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
 });

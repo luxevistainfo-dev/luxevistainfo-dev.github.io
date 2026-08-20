@@ -36,6 +36,7 @@
   </script>
 </head>
 <body>
+  <div class="progress" id="progress"></div>
   <a class="skip" href="#donate">Skip to donate</a>
   <header class="nav">
     <div class="wrap nav-inner">
@@ -53,9 +54,16 @@
 
   <section class="hero" id="top">
     <img class="bg" src="images/hero.jpg" alt="A volunteer wrapping a wet street dog and a ginger cat in a blanket at sunset">
+    <canvas id="paws" aria-hidden="true"></canvas>
+    <div class="hero-grain"></div>
+    <div class="hero-glow"></div>
     <div class="wrap hero-copy">
       <p class="eyebrow">A community fund for animals</p>
-      <h1>One dollar.<br>One meal.<br>One more night safe.</h1>
+      <h1>
+        <span class="line"><span>One dollar.</span></span>
+        <span class="line"><span>One meal.</span></span>
+        <span class="line"><span>One more night safe.</span></span>
+      </h1>
       <p class="lede">A stray does not need a fortune. They need a bowl tonight, a dry corner, a chance. If you can spare $1 — in any crypto, on any chain — you can put food in that bowl.</p>
       <div class="hero-actions">
         <a class="btn btn-gold" href="#donate">Send $1 now</a>
@@ -68,11 +76,17 @@
       </div>
     </div>
   </section>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>$1 = one meal</span><span>Any chain</span><span>No account</span><span>One wallet</span><span>$1 = one meal</span><span>Any chain</span><span>No account</span><span>One wallet</span>
+      <span>$1 = one meal</span><span>Any chain</span><span>No account</span><span>One wallet</span><span>$1 = one meal</span><span>Any chain</span><span>No account</span><span>One wallet</span>
+    </div>
+  </div>
 
   <section class="section" id="story">
     <div class="wrap split">
-      <img src="images/story-rain.jpg" alt="A soaked mixed-breed dog sitting in the rain on a city street">
-      <div class="prose">
+      <div class="media reveal"><img src="images/story-rain.jpg" alt="A soaked mixed-breed dog sitting in the rain on a city street"></div>
+      <div class="prose reveal d1">
         <p class="kicker">The night it rains</p>
         <h2>He waited on the cobblestones until the shops went dark.</h2>
         <p>There is a kind of quiet that only street animals know. Not peace — just the pause between cars, between footsteps, between someone who might stop and someone who does not.</p>
@@ -85,39 +99,39 @@
 
   <section class="section alt" id="how">
     <div class="wrap">
-      <p class="kicker">What $1 actually does</p>
-      <h2>Small on purpose.</h2>
-      <p class="prose" style="max-width:62ch;color:var(--ink-soft)">We ask for a dollar because almost anyone can give a dollar — and because a dollar, stacked with other dollars, is how a stray eats. Give more if you want. $1 is already a full gift.</p>
+      <p class="kicker reveal">What $1 actually does</p>
+      <h2 class="reveal d1">Small on purpose.</h2>
+      <p class="prose reveal d2" style="max-width:62ch;color:var(--ink-soft)">We ask for a dollar because almost anyone can give a dollar — and because a dollar, stacked with other dollars, is how a stray eats. Give more if you want. $1 is already a full gift.</p>
       <div class="stats" style="margin-top:32px">
-        <div class="stat"><strong>$1</strong><span>One meal in a real bowl</span></div>
-        <div class="stat"><strong>$5</strong><span>Food for several days</span></div>
-        <div class="stat"><strong>$10</strong><span>A vaccine contribution</span></div>
-        <div class="stat"><strong>$25</strong><span>Warmth, food, and basic care</span></div>
+        <div class="stat reveal"><strong>$1</strong><span>One meal in a real bowl</span></div>
+        <div class="stat reveal d1"><strong>$5</strong><span>Food for several days</span></div>
+        <div class="stat reveal d2"><strong>$10</strong><span>A vaccine contribution</span></div>
+        <div class="stat reveal d3"><strong>$25</strong><span>Warmth, food, and basic care</span></div>
       </div>
     </div>
   </section>
 
   <section class="section" id="lives">
     <div class="wrap">
-      <p class="kicker">Portraits</p>
-      <h2>The lives a dollar stands beside.</h2>
-      <p class="note">These are portraits of the animals this fund exists to help — the wet dog, the boxed kitten, the old one who still wants to eat, the cat who finally slept in a window. They are the reason the wallet is open.</p>
+      <p class="kicker reveal">Portraits</p>
+      <h2 class="reveal d1">The lives a dollar stands beside.</h2>
+      <p class="note reveal d2">These are portraits of the animals this fund exists to help — the wet dog, the boxed kitten, the old one who still wants to eat, the cat who finally slept in a window. They are the reason the wallet is open.</p>
       <div class="cards">
-        <article class="card">
+        <article class="card reveal">
           <img src="images/story-kitten.jpg" alt="A ginger kitten peeking from a cardboard box">
           <div class="card-body">
             <h3>The box on the stair</h3>
             <p>Someone left her there because they could not keep her. A box is not a home, but it is a start — if there is food, and a towel, and a person who opens the lid gently.</p>
           </div>
         </article>
-        <article class="card">
+        <article class="card reveal d1">
           <img src="images/story-clinic.jpg" alt="An older cream-colored dog on a clinic table being offered a bowl of food">
           <div class="card-body">
             <h3>The old one still waiting</h3>
             <p>Age is not a reason to go hungry. A metal bowl on a clinic table can be the first kind thing that happens to a senior street dog in years.</p>
           </div>
         </article>
-        <article class="card">
+        <article class="card reveal d2">
           <img src="images/story-window.jpg" alt="A grey and white cat sleeping in a sun patch on a wooden windowsill">
           <div class="card-body">
             <h3>The afternoon that was quiet</h3>
@@ -130,13 +144,13 @@
 
   <section class="section" style="padding-top:0">
     <div class="wrap split">
-      <div class="prose">
+      <div class="prose reveal">
         <p class="kicker">After the bowl</p>
         <h2>Then, if we are lucky, they run.</h2>
         <p>Not every story ends in a meadow. Some end in a foster hallway. Some end at a clinic. The point of Pawlight is to make the next right thing possible — food first, then care, then whatever life can still become.</p>
         <p>If you send a dollar, you are in that chain. You will not get a plaque. You will get the knowledge that a bowl was filled because you decided $1 was not too small to matter.</p>
       </div>
-      <img src="images/after.jpg" alt="A healthy dog running through a sunlit wildflower meadow">
+      <div class="media reveal d1"><img src="images/after.jpg" alt="A healthy dog running through a sunlit wildflower meadow"></div>
     </div>
   </section>
 
@@ -146,7 +160,7 @@
       <h2>Send $1 — or whatever you can.</h2>
       <p class="tiny" style="max-width:60ch">Use Polygon or Base if you can. Fees there are small enough that a one-dollar gift actually arrives. The address is the same on every EVM chain. Bitcoin has its own address.</p>
       <div class="donate-grid">
-        <div class="panel">
+        <div class="panel reveal">
           <label for="network">Network</label>
           <select id="network">
             <option value="polygon" selected>Polygon — best for $1</option>
@@ -178,8 +192,10 @@
             <a class="btn btn-gold" href="thank-you.html">I sent my gift</a>
           </p>
         </div>
-        <div class="panel qr-wrap">
+        <div class="panel qr-wrap reveal">
+          <div class="qr-ring">
           <img id="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=ethereum:0x6648A42cb5B425640C172Feb59c96D88bF05EE15@137" alt="Donation QR code">
+          </div>
           <strong>Scan from your wallet</strong>
           <p class="tiny">Open your wallet’s send screen, scan, send $1. That’s the whole process.</p>
           <div class="share">
