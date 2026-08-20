@@ -154,13 +154,18 @@ a { color: var(--teal-2); }
   align-items: end;
 }
 
+.hero-bg-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
 .hero img.bg {
   position: absolute;
   inset: -6%;
   width: 112%;
   height: 112%;
   object-fit: cover;
-  z-index: -2;
   animation: kenburns 28s ease-in-out infinite alternate;
 }
 
@@ -635,6 +640,42 @@ select, .addr {
   0% { transform: scale(.92); opacity: .7; }
   100% { transform: scale(1.12); opacity: 0; }
 }
+.who { background: var(--paper); }
+.who-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 36px;
+}
+.who-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 24px;
+  min-height: 200px;
+}
+.who-card h3 { color: var(--teal); margin-bottom: 10px; }
+.who-card p { color: var(--ink-soft); margin: 0; }
+
+.hscroll { overflow: hidden; }
+.hscroll-track.cards {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.hscroll-track .card {
+  width: min(400px, 78vw);
+  min-width: min(400px, 78vw);
+  flex: 0 0 auto;
+}
+
+.split .prose, .media { will-change: transform, opacity; }
+
+@media (max-width: 900px) {
+  .who-grid { grid-template-columns: 1fr; }
+  .hscroll { overflow: visible; }
+}
+
 @keyframes bouncecta {
   0%, 70%, 100% { transform: translateY(0); }
   80% { transform: translateY(-4px); }

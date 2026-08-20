@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pawlight — One dollar. One meal. One more night safe.</title>
-  <meta name="description" content="Pawlight is a community fund for stray and surrendered dogs and cats. Give $1 or more in crypto — same wallet on every major chain. One dollar is one meal.">
+  <meta name="description" content="Donate $1 in crypto to feed a stray dog or cat tonight. Polygon, Base, Ethereum, Bitcoin. For animal lovers and crypto holders who want a tiny on-chain gift to actually matter.">
+  <meta name="keywords" content="donate crypto animals, stray dog donation, feed street cats, USDT animal rescue, polygon donation, bitcoin animal charity, $1 crypto donation">
   <meta name="theme-color" content="#0f3d3a">
   <link rel="canonical" href="https://luxevistainfo-dev.github.io/">
   <link rel="icon" href="images/favicon.png" type="image/png">
@@ -31,7 +32,8 @@
     "description": "Independent community fund that turns small crypto gifts into food, vaccines, and shelter for stray and surrendered companion animals.",
     "email": "luxevistainfo@gmail.com",
     "slogan": "One dollar. One meal. One more night safe.",
-    "areaServed": "Worldwide"
+    "areaServed": "Worldwide",
+    "keywords": "donate crypto stray dogs, feed street cats, USDT animal rescue, polygon donation"
   }
   </script>
 </head>
@@ -44,6 +46,7 @@
       <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks">☰</button>
       <nav class="nav-links" id="navLinks">
         <a href="#story">The story</a>
+        <a href="#who">For you</a>
         <a href="#lives">Lives</a>
         <a href="#how">How $1 helps</a>
         <a href="#honest">Honesty</a>
@@ -53,7 +56,9 @@
   </header>
 
   <section class="hero" id="top">
+    <div class="hero-bg-wrap">
     <img class="bg" src="images/hero.jpg" alt="A volunteer wrapping a wet street dog and a ginger cat in a blanket at sunset">
+    </div>
     <canvas id="paws" aria-hidden="true"></canvas>
     <div class="hero-grain"></div>
     <div class="hero-glow"></div>
@@ -111,12 +116,34 @@
     </div>
   </section>
 
+  <section class="section who" id="who">
+    <div class="wrap">
+      <p class="kicker reveal">Who this is for</p>
+      <h2 class="reveal d1">If you would ever send $1 to an animal, this is your page.</h2>
+      <div class="who-grid">
+        <article class="who-card reveal">
+          <h3>You already feed strays</h3>
+          <p>You leave kibble on a stair. You know the cost of a bowl. $1 here is that same instinct, sent further than your street.</p>
+        </article>
+        <article class="who-card reveal d1">
+          <h3>You hold crypto</h3>
+          <p>You can send $1 in USDT, USDC, ETH, MATIC or BTC without opening a bank app. Polygon so the fee does not eat the gift.</p>
+        </article>
+        <article class="who-card reveal d2">
+          <h3>You cannot adopt — you can still help</h3>
+          <p>A home is not the only kindness. Food, a vaccine, a dry night. That is what a small on-chain gift becomes.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="lives">
     <div class="wrap">
       <p class="kicker reveal">Portraits</p>
       <h2 class="reveal d1">The lives a dollar stands beside.</h2>
       <p class="note reveal d2">These are portraits of the animals this fund exists to help — the wet dog, the boxed kitten, the old one who still wants to eat, the cat who finally slept in a window. They are the reason the wallet is open.</p>
-      <div class="cards">
+      <div class="hscroll" id="hscroll">
+      <div class="hscroll-track cards">
         <article class="card reveal">
           <img src="images/story-kitten.jpg" alt="A ginger kitten peeking from a cardboard box">
           <div class="card-body">
@@ -138,6 +165,7 @@
             <p>This is what the money is for, in the end: a windowsill, a sun patch, a body that is no longer flinching. Rescue is not a speech. It is a nap that feels safe.</p>
           </div>
         </article>
+      </div>
       </div>
     </div>
   </section>
@@ -262,6 +290,9 @@
 
   <a class="btn btn-gold mobile-cta" href="#donate">Give $1</a>
   <div class="toast" id="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/scroll-motion.js"></script>
 </body>
 </html>
