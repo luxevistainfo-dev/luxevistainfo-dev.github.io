@@ -25,6 +25,7 @@
       <p class="eyebrow">You did something small and complete</p>
       <h1><span class="line"><span>Thank you.</span></span></h1>
       <p class="lede">If you sent $1, a bowl can be filled. If you sent more, more nights get easier. We do not need a speech from you. We are grateful you treated a stray’s hunger as real.</p>
+      <p class="lede" id="txLine" hidden></p>
       <div class="hero-actions">
         <a class="btn btn-gold" id="share-x" target="_blank" rel="noopener">Tell one person</a>
         <a class="btn btn-ghost" href="index.html">Back to Pawlight</a>
@@ -33,5 +34,15 @@
   </section>
   <div class="toast" id="toast"></div>
   <script src="js/main.js"></script>
+  <script>
+    (function () {
+      const tx = new URLSearchParams(location.search).get("tx");
+      if (!tx || !/^0x[a-fA-F0-9]{64}$/.test(tx)) return;
+      const el = document.getElementById("txLine");
+      if (!el) return;
+      el.hidden = false;
+      el.innerHTML = 'On-chain receipt: <a href="https://polygonscan.com/tx/' + tx + '" style="color:#e8d6b0" target="_blank" rel="noopener">view this transaction on Polygonscan</a>';
+    })();
+  </script>
 </body>
 </html>

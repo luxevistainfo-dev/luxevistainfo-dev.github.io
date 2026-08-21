@@ -423,6 +423,14 @@ select, .addr {
 
 .tiny { font-size: 0.84rem; color: rgba(246, 240, 228, 0.72); }
 
+#donateWallet { min-width: 240px; padding: 14px 26px; font-size: 1.05rem; }
+.donate-status { margin: 12px 0 0; font-size: 0.92rem; color: rgba(246, 240, 228, 0.78); line-height: 1.5; }
+.donate-status.ok { color: #b8e0c8; }
+.donate-status.err { color: #f3b6aa; }
+.donate-status.warn { color: var(--gold-2); }
+#walletLinks { margin-top: 12px; }
+#txLink a { color: var(--gold-2); }
+
 .share { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 
 .share a, .share button {

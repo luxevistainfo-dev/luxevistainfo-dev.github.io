@@ -23,9 +23,19 @@ function qrUrl(data) {
   return "https://api.qrserver.com/v1/create-qr-code/?size=240x240&ecc=M&data=" + encodeURIComponent(data);
 }
 
+function selectedUsd() {
+  const raw = document.querySelector(".chip.active") && document.querySelector(".chip.active").dataset.usd;
+  const n = Number(raw);
+  return n > 0 ? n : 1;
+}
+
 function paymentUri(netKey) {
   const net = NETWORKS[netKey];
   if (net.kind === "btc") return "bitcoin:" + BTC;
+  if (netKey === "polygon") {
+    const amount = Math.round(selectedUsd() * 1e6);
+    return "ethereum:0xc2132D05D31c914a87C6611C10748AEb04B58e8F@" + net.chainId + "/transfer?address=" + EVM + "&uint256=" + amount;
+  }
   return "ethereum:" + EVM + "@" + net.chainId;
 }
 
@@ -98,9 +108,24 @@ document.addEventListener("DOMContentLoaded", () => {
         $all(".chip").forEach((c) => c.classList.remove("active"));
         chip.classList.add("active");
         $("#giftNote").textContent = chip.dataset.note;
+        refreshPay();
+        const dw = $("#donateWallet");
+        if (dw && chip.dataset.usd !== "any") dw.textContent = "Donate $" + chip.dataset.usd + " with wallet";
+        if (dw && chip.dataset.usd === "any") dw.textContent = "Donate with wallet";
       });
     });
   }
+
+  ["heroDonate", "mobileDonate"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("click", () => {
+      setTimeout(() => {
+        const dw = document.getElementById("donateWallet");
+        if (dw) dw.focus();
+      }, 350);
+    });
+  });
 
   const nativeShare = $("#nativeShare");
   if (nativeShare && navigator.share) {

@@ -71,7 +71,7 @@
       </h1>
       <p class="lede">A stray does not need a fortune. They need a bowl tonight, a dry corner, a chance. If you can spare $1 — in any crypto, on any chain — you can put food in that bowl.</p>
       <div class="hero-actions">
-        <a class="btn btn-gold" href="#donate">Send $1 now</a>
+        <a class="btn btn-gold" href="#donate" id="heroDonate">Send $1 now</a>
         <a class="btn btn-ghost" href="#story">Read the story</a>
       </div>
       <div class="trust">
@@ -203,22 +203,27 @@
           <p class="tiny" id="networkHint" style="margin:10px 0 18px"></p>
           <p style="margin:0 0 8px;font-weight:700">Suggested gift</p>
           <div class="amounts">
-            <button class="chip active" type="button" data-note="One meal in a real bowl. This is a complete gift.">$1</button>
-            <button class="chip" type="button" data-note="Food for several days for a small dog or cat.">$5</button>
-            <button class="chip" type="button" data-note="A real push toward vaccines and basic vet care.">$10</button>
-            <button class="chip" type="button" data-note="Warmth, food, and a buffer for an emergency.">$25</button>
-            <button class="chip" type="button" data-note="Give any amount you want. There is no minimum above $1, and no maximum.">Any</button>
+            <button class="chip active" type="button" data-usd="1" data-note="One meal in a real bowl. This is a complete gift.">$1</button>
+            <button class="chip" type="button" data-usd="5" data-note="Food for several days for a small dog or cat.">$5</button>
+            <button class="chip" type="button" data-usd="10" data-note="A real push toward vaccines and basic vet care.">$10</button>
+            <button class="chip" type="button" data-usd="25" data-note="Warmth, food, and a buffer for an emergency.">$25</button>
+            <button class="chip" type="button" data-usd="any" data-note="Give any amount you want. There is no minimum above $1, and no maximum.">Any</button>
           </div>
           <p class="tiny" id="giftNote">One meal in a real bowl. This is a complete gift.</p>
-          <label for="address" style="margin-top:16px">Wallet address</label>
+          <p style="margin-top:18px">
+            <button class="btn btn-gold" type="button" id="donateWallet">Donate with wallet</button>
+          </p>
+          <p class="donate-status" id="donateStatus">This opens MetaMask (or your wallet), switches to Polygon, and sends a real USDT/USDC transfer to Pawlight. You confirm it. Nothing is simulated.</p>
+          <p class="tiny" id="txLink" hidden></p>
+          <div id="walletLinks" hidden>
+            <a class="btn btn-ghost" id="openMetamask" href="https://metamask.io/download/" target="_blank" rel="noopener">Open in MetaMask</a>
+          </div>
+          <label for="address" style="margin-top:16px">Or send manually to this address</label>
           <div class="addr-row">
             <input class="addr" id="address" readonly value="0x6648A42cb5B425640C172Feb59c96D88bF05EE15">
             <button class="btn btn-gold" id="copyBtn" type="button">Copy</button>
           </div>
-          <p class="tiny" style="margin-top:12px">USDT, USDC, ETH, MATIC, BNB and other tokens on the selected EVM network all go to this same address.</p>
-          <p style="margin-top:18px">
-            <a class="btn btn-gold" href="thank-you.html">I sent my gift</a>
-          </p>
+          <p class="tiny" style="margin-top:12px">Wallet send uses Polygon USDT/USDC (then POL if you have no stablecoins). Manual send works on any listed network to this same address.</p>
         </div>
         <div class="panel qr-wrap reveal">
           <div class="qr-ring">
@@ -288,11 +293,12 @@
     </div>
   </footer>
 
-  <a class="btn btn-gold mobile-cta" href="#donate">Give $1</a>
+  <a class="btn btn-gold mobile-cta" href="#donate" id="mobileDonate">Give $1</a>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/donate.js"></script>
   <script src="js/scroll-motion.js"></script>
 </body>
 </html>
