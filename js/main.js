@@ -24,6 +24,11 @@ function qrUrl(data) {
 }
 
 function selectedUsd() {
+  const box = document.getElementById("usdInput");
+  if (box) {
+    const n = Number(box.value);
+    if (n > 0) return n;
+  }
   const raw = document.querySelector(".chip.active") && document.querySelector(".chip.active").dataset.usd;
   const n = Number(raw);
   return n > 0 ? n : 1;

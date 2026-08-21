@@ -47,6 +47,17 @@
     });
   });
 
+  gsap.utils.toArray(".live-card").forEach((el, i) => {
+    gsap.from(el, {
+      y: 40,
+      opacity: 0,
+      duration: 0.7,
+      delay: i * 0.08,
+      ease: "power2.out",
+      scrollTrigger: { trigger: el, start: "top 90%" }
+    });
+  });
+
   gsap.utils.toArray(".who-card").forEach((el, i) => {
     gsap.from(el, {
       y: 60,

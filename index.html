@@ -46,11 +46,11 @@
       <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks">☰</button>
       <nav class="nav-links" id="navLinks">
         <a href="#story">The story</a>
+        <a href="#lights">Lights</a>
+        <a href="#token">PAW</a>
         <a href="#who">For you</a>
-        <a href="#lives">Lives</a>
-        <a href="#how">How $1 helps</a>
-        <a href="#honest">Honesty</a>
-        <a class="btn btn-gold" href="#donate">Give $1</a>
+        <a href="#donate">Give</a>
+        <a class="btn btn-gold" href="#donate">Send now</a>
       </nav>
     </div>
   </header>
@@ -69,7 +69,7 @@
         <span class="line"><span>One meal.</span></span>
         <span class="line"><span>One more night safe.</span></span>
       </h1>
-      <p class="lede">A stray does not need a fortune. They need a bowl tonight, a dry corner, a chance. If you can spare $1 — in any crypto, on any chain — you can put food in that bowl.</p>
+      <p class="lede">A stray does not need a fortune. They need a bowl tonight. Send any amount from your wallet. The gift becomes food — and PAW, a thank-you token minted only to the people who give.</p>
       <div class="hero-actions">
         <a class="btn btn-gold" href="#donate" id="heroDonate">Send $1 now</a>
         <a class="btn btn-ghost" href="#story">Read the story</a>
@@ -83,8 +83,10 @@
   </section>
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track">
-      <span>$1 = one meal</span><span>Any chain</span><span>No account</span><span>One wallet</span><span>$1 = one meal</span><span>Any chain</span><span>No account</span><span>One wallet</span>
-      <span>$1 = one meal</span><span>Any chain</span><span>No account</span><span>One wallet</span><span>$1 = one meal</span><span>Any chain</span><span>No account</span><span>One wallet</span>
+      <span>$1 = one meal</span><span>1000 PAW thank-you</span><span>Max 1B</span><span>$0.001 genesis</span><span>Donors mint first</span><span>Trading later</span>
+      <span>$1 = one meal</span><span>1000 PAW thank-you</span><span>Max 1B</span><span>$0.001 genesis</span><span>Donors mint first</span><span>Trading later</span>
+      <span>$1 = one meal</span><span>1000 PAW thank-you</span><span>Max 1B</span><span>$0.001 genesis</span><span>Donors mint first</span><span>Trading later</span>
+      <span>$1 = one meal</span><span>1000 PAW thank-you</span><span>Max 1B</span><span>$0.001 genesis</span><span>Donors mint first</span><span>Trading later</span>
     </div>
   </div>
 
@@ -201,19 +203,23 @@
             <option value="bitcoin">Bitcoin</option>
           </select>
           <p class="tiny" id="networkHint" style="margin:10px 0 18px"></p>
-          <p style="margin:0 0 8px;font-weight:700">Suggested gift</p>
+          <p style="margin:0 0 8px;font-weight:700">Your gift in USD</p>
+          <div class="usd-box">
+            <span class="usd-prefix">$</span>
+            <input type="number" id="usdInput" min="1" step="0.01" value="1" inputmode="decimal" placeholder="Any amount">
+          </div>
           <div class="amounts">
             <button class="chip active" type="button" data-usd="1" data-note="One meal in a real bowl. This is a complete gift.">$1</button>
             <button class="chip" type="button" data-usd="5" data-note="Food for several days for a small dog or cat.">$5</button>
-            <button class="chip" type="button" data-usd="10" data-note="A real push toward vaccines and basic vet care.">$10</button>
+            <button class="chip" type="button" data-usd="10" data-note="A vaccine contribution.">$10</button>
             <button class="chip" type="button" data-usd="25" data-note="Warmth, food, and a buffer for an emergency.">$25</button>
-            <button class="chip" type="button" data-usd="any" data-note="Give any amount you want. There is no minimum above $1, and no maximum.">Any</button>
+            <button class="chip" type="button" data-usd="any" data-note="Type any amount in the box. $1 already counts.">Any</button>
           </div>
-          <p class="tiny" id="giftNote">One meal in a real bowl. This is a complete gift.</p>
+          <p class="tiny" id="giftNote">One meal in a real bowl. About 1,000 PAW is minted to you as thanks.</p>
           <p style="margin-top:18px">
-            <button class="btn btn-gold" type="button" id="donateWallet">Donate with wallet</button>
+            <button class="btn btn-gold" type="button" id="donateWallet">Send $1</button>
           </p>
-          <p class="donate-status" id="donateStatus">This opens MetaMask (or your wallet), switches to Polygon, and sends a real USDT/USDC transfer to Pawlight. You confirm it. Nothing is simulated.</p>
+          <p class="donate-status" id="donateStatus">Press Send. Your wallet opens, you confirm, and a real Polygon transaction runs. No simulation. PAW is the thank-you — minted only to donors, not airdropped.</p>
           <p class="tiny" id="txLink" hidden></p>
           <div id="walletLinks" hidden>
             <a class="btn btn-ghost" id="openMetamask" href="https://metamask.io/download/" target="_blank" rel="noopener">Open in MetaMask</a>
@@ -245,12 +251,56 @@
     </div>
   </section>
 
+  <section class="section lights" id="lights">
+    <div class="wrap">
+      <p class="kicker reveal">Live ledger</p>
+      <h2 class="reveal d1">Lights already sent.</h2>
+      <p class="note reveal d2">Read from Polygon. Donations in the treasury, and PAW in circulation. When the mint contract is live, every Send mints PAW to the donor in the same breath as the gift.</p>
+      <div class="live-grid">
+        <div class="live-card reveal"><span>Donated so far</span><strong id="liveDonated">…</strong></div>
+        <div class="live-card reveal d1"><span>PAW in circulation</span><strong id="liveCirc">…</strong></div>
+        <div class="live-card reveal d2"><span>Genesis price</span><strong id="livePrice">$0.001</strong></div>
+        <div class="live-card reveal d3"><span>Max supply</span><strong id="liveMax">1,000,000,000 PAW</strong></div>
+      </div>
+      <div class="supply-wrap reveal"><div class="supply-bar" id="supplyBar"></div></div>
+      <p class="tiny supply-cap">Max 1 billion PAW. No mint except to people who donate. Trading is not open yet — the first holders are the ones who fed a stray.</p>
+    </div>
+  </section>
+
+  <section class="section token-story" id="token">
+    <div class="wrap split">
+      <div class="prose reveal">
+        <p class="kicker">The token</p>
+        <h2>PAW is not an airdrop. It is a thank-you that can only be born from a bowl.</h2>
+        <p>Crypto taught the world that a ledger can remember. Pawlight uses that for something quieter than a chart: a meal. When you send a dollar, the chain does two honest things. The gift moves to the treasury. And PAW is minted to you — one thousand lights for each dollar — so the thanks is as real as the food.</p>
+        <p class="quote">“Whoever donates, holds the light. Nobody else gets it first.”</p>
+        <p>Max supply is one billion. Genesis price is one tenth of a cent: $0.001, because 1,000 PAW equals $1 of care. There is no DEX pool yet. A listing is planned so those lights can move later. Until then PAW exists only as gratitude — a receipt you can keep, send, or someday trade.</p>
+        <p>This is not a promise of profit. It is a story you can verify: open Polygonscan, watch the treasury, watch the supply. If nobody gives, no PAW is born. If you give, you are in the first circle.</p>
+      </div>
+      <div class="token-panel reveal d1">
+        <h3>Pawlight · PAW</h3>
+        <ul class="token-list">
+          <li><span>Network</span><b>Polygon</b></li>
+          <li><span>Type</span><b>ERC-20</b></li>
+          <li><span>Mint</span><b>Donors only</b></li>
+          <li><span>Rate</span><b>1,000 PAW / $1</b></li>
+          <li><span>Price now</span><b>$0.001 genesis</b></li>
+          <li><span>Max</span><b>1,000,000,000</b></li>
+          <li><span>Trading</span><b>Coming — not live</b></li>
+          <li><span>Tax</span><b>0%</b></li>
+          <li><span>Mint contract</span><b id="mintStatus">Ready — deploy gas needed</b></li>
+        </ul>
+        <a class="btn btn-dark" href="#donate">Mint by feeding</a>
+      </div>
+    </div>
+  </section>
+
   <section class="section alt" id="honest">
     <div class="wrap transparency">
       <div>
         <p class="kicker">Be clear with us</p>
         <h2>This is a real wallet. It is not a registered charity.</h2>
-        <p>Pawlight is an independent community fund. Donations are voluntary crypto gifts. They are not tax-deductible. We do not sell your data, because we never ask for an account.</p>
+        <p>Pawlight is an independent community fund. Donations are voluntary crypto gifts. They are not tax-deductible. PAW is a thank-you token minted to donors. It has a genesis price of $0.001 and a max supply of one billion. Trading is not live. PAW is not a promise of profit.</p>
         <p>If you write to us after you give, we will thank you. If you do not, that is also complete — the bowl still fills.</p>
       </div>
       <div>
@@ -297,8 +347,10 @@
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/main.js"></script>
   <script src="js/donate.js"></script>
+  <script src="js/stats.js"></script>
   <script src="js/scroll-motion.js"></script>
 </body>
 </html>
