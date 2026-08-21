@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pawlight — One dollar. One meal. One more night safe.</title>
-  <meta name="description" content="Donate $1 in crypto to feed a stray dog or cat tonight. Polygon, Base, Ethereum, Bitcoin. For animal lovers and crypto holders who want a tiny on-chain gift to actually matter.">
+  <meta name="description" content="Donate $1+ in crypto to feed a stray tonight. Send from MetaMask or from Binance/Coinbase on Polygon USDT. Genesis PAW: 1000 per $1, only for donors.">
   <meta name="keywords" content="donate crypto animals, stray dog donation, feed street cats, USDT animal rescue, polygon donation, bitcoin animal charity, $1 crypto donation">
   <meta name="theme-color" content="#0f3d3a">
   <link rel="canonical" href="https://luxevistainfo-dev.github.io/">
@@ -219,7 +219,7 @@
           <p style="margin-top:18px">
             <button class="btn btn-gold" type="button" id="donateWallet">Send $1</button>
           </p>
-          <p class="donate-status" id="donateStatus">Press Send. Your wallet opens, you confirm, and a real Polygon transaction runs. No simulation. PAW is the thank-you — minted only to donors, not airdropped.</p>
+          <p class="donate-status" id="donateStatus">Press Send — wallet opens, you confirm, money moves on Polygon. Or withdraw USDT on Polygon from an exchange. 1,000 genesis PAW per $1. We never pay gas to receive.</p>
           <p class="tiny" id="txLink" hidden></p>
           <div id="walletLinks" hidden>
             <a class="btn btn-ghost" id="openMetamask" href="https://metamask.io/download/" target="_blank" rel="noopener">Open in MetaMask</a>
@@ -229,7 +229,8 @@
             <input class="addr" id="address" readonly value="0x6648A42cb5B425640C172Feb59c96D88bF05EE15">
             <button class="btn btn-gold" id="copyBtn" type="button">Copy</button>
           </div>
-          <p class="tiny" style="margin-top:12px">Wallet send uses Polygon USDT/USDC (then POL if you have no stablecoins). Manual send works on any listed network to this same address.</p>
+          <p class="tiny" style="margin-top:12px"><strong>No gas from us.</strong> If your wallet asks for POL: send USDT on Polygon from Binance, Coinbase, OKX, or Kraken to the address above. The exchange handles it. That gift still counts, and genesis PAW is yours.</p>
+          <p class="tiny">Network: <b>Polygon</b> · Token: <b>USDT or USDC</b> · Memo: none</p>
         </div>
         <div class="panel qr-wrap reveal">
           <div class="qr-ring">
@@ -258,12 +259,14 @@
       <p class="note reveal d2">Read from Polygon. Donations in the treasury, and PAW in circulation. When the mint contract is live, every Send mints PAW to the donor in the same breath as the gift.</p>
       <div class="live-grid">
         <div class="live-card reveal"><span>Donated so far</span><strong id="liveDonated">…</strong></div>
-        <div class="live-card reveal d1"><span>PAW in circulation</span><strong id="liveCirc">…</strong></div>
-        <div class="live-card reveal d2"><span>Genesis price</span><strong id="livePrice">$0.001</strong></div>
-        <div class="live-card reveal d3"><span>Max supply</span><strong id="liveMax">1,000,000,000 PAW</strong></div>
+        <div class="live-card reveal d1"><span>Genesis PAW</span><strong id="liveCirc">…</strong></div>
+        <div class="live-card reveal d2"><span>People who gave</span><strong id="liveDonors">0</strong></div>
+        <div class="live-card reveal d3"><span>Genesis price</span><strong id="livePrice">$0.001</strong></div>
       </div>
       <div class="supply-wrap reveal"><div class="supply-bar" id="supplyBar"></div></div>
-      <p class="tiny supply-cap">Max 1 billion PAW. No mint except to people who donate. Trading is not open yet — the first holders are the ones who fed a stray.</p>
+      <p class="tiny supply-cap">Max 1 billion PAW. 1,000 PAW per $1, written from real Polygon gifts — no airdrop. Trading is not open yet. First holders are the ones who fed a stray.</p>
+      <p style="margin-top:18px"><button class="btn btn-dark" type="button" id="checkPaw">See my genesis PAW</button></p>
+      <p class="note" id="myPaw"></p>
     </div>
   </section>
 
@@ -272,7 +275,7 @@
       <div class="prose reveal">
         <p class="kicker">The token</p>
         <h2>PAW is not an airdrop. It is a thank-you that can only be born from a bowl.</h2>
-        <p>Crypto taught the world that a ledger can remember. Pawlight uses that for something quieter than a chart: a meal. When you send a dollar, the chain does two honest things. The gift moves to the treasury. And PAW is minted to you — one thousand lights for each dollar — so the thanks is as real as the food.</p>
+        <p>Crypto taught the world that a ledger can remember. Pawlight uses that for a bowl, not a pitch deck. You send a dollar. The gift hits the treasury on Polygon. One thousand PAW lights are allocated to you — genesis, only for donors, never an airdrop. We do not spend gas to receive your kindness. You send; the stray eats.</p>
         <p class="quote">“Whoever donates, holds the light. Nobody else gets it first.”</p>
         <p>Max supply is one billion. Genesis price is one tenth of a cent: $0.001, because 1,000 PAW equals $1 of care. There is no DEX pool yet. A listing is planned so those lights can move later. Until then PAW exists only as gratitude — a receipt you can keep, send, or someday trade.</p>
         <p>This is not a promise of profit. It is a story you can verify: open Polygonscan, watch the treasury, watch the supply. If nobody gives, no PAW is born. If you give, you are in the first circle.</p>
@@ -288,7 +291,7 @@
           <li><span>Max</span><b>1,000,000,000</b></li>
           <li><span>Trading</span><b>Coming — not live</b></li>
           <li><span>Tax</span><b>0%</b></li>
-          <li><span>Mint contract</span><b id="mintStatus">Ready — deploy gas needed</b></li>
+          <li><span>Genesis</span><b id="mintStatus">On-chain gifts → 1000 PAW / $1</b></li>
         </ul>
         <a class="btn btn-dark" href="#donate">Mint by feeding</a>
       </div>

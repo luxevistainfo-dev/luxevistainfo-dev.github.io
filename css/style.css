@@ -487,6 +487,7 @@ select, .addr {
   transition: width 1.2s ease;
 }
 .supply-cap { margin-top: 10px; color: var(--ink-soft); }
+#myPaw { min-height: 1.4em; margin-top: 10px; color: var(--teal); font-weight: 600; }
 .lights { background: var(--paper); }
 
 .token-panel {

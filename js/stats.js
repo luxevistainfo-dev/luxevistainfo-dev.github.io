@@ -1,12 +1,18 @@
 (function () {
   const cfg = window.PAWLIGHT_CONFIG || {};
   const RPC = cfg.rpc || "https://polygon-bor-rpc.publicnode.com";
-  const TREASURY = (cfg.treasury || "").toLowerCase();
+  const TREASURY = (cfg.treasury || "0x6648A42cb5B425640C172Feb59c96D88bF05EE15").toLowerCase();
   const USDT = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
   const USDC = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
+  const USDCe = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
+  const TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
+  const PAW_PER_USD = cfg.pawPerUsd || 1000;
 
   function pad32(hex) {
     return hex.replace(/^0x/i, "").toLowerCase().padStart(64, "0");
+  }
+  function topicAddr(hex) {
+    return ("0x" + hex.slice(-40)).toLowerCase();
   }
 
   async function rpc(method, params) {
@@ -32,11 +38,10 @@
     if (n >= 1000) return "$" + n.toLocaleString(undefined, { maximumFractionDigits: 0 });
     return "$" + n.toLocaleString(undefined, { maximumFractionDigits: 2 });
   }
-
   function fmtPaw(n) {
     if (n >= 1e6) return (n / 1e6).toFixed(2) + "M PAW";
-    if (n >= 1000) return n.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " PAW";
-    return n.toLocaleString(undefined, { maximumFractionDigits: 2 }) + " PAW";
+    if (n >= 1000) return Math.round(n).toLocaleString() + " PAW";
+    return n.toLocaleString(undefined, { maximumFractionDigits: 1 }) + " PAW";
   }
 
   async function polPrice() {
@@ -51,29 +56,35 @@
     }
   }
 
-  async function contractStats(addr) {
-    const abi = window.PAWLIGHT_ABI || [];
-    if (!addr || !abi.length) return null;
-    async function call(sig) {
-      const sel = sig;
-      const result = await rpc("eth_call", [{ to: addr, data: sel }, "latest"]);
-      return BigInt(result || "0x0");
+  async function incomingUsd() {
+    const latest = parseInt(await rpc("eth_blockNumber", []), 16);
+    const from = "0x" + Math.max(0, latest - 250000).toString(16);
+    const toTopic = "0x" + pad32(TREASURY);
+    let usd = 0;
+    const donors = {};
+    for (const token of [USDT, USDC, USDCe]) {
+      try {
+        const logs = await rpc("eth_getLogs", [{
+          fromBlock: from,
+          toBlock: "latest",
+          address: token,
+          topics: [TRANSFER, null, toTopic]
+        }]);
+        (logs || []).forEach((log) => {
+          const amount = Number(BigInt(log.data || "0x0")) / 1e6;
+          usd += amount;
+          const fromAddr = topicAddr(log.topics[1] || "0x");
+          donors[fromAddr] = (donors[fromAddr] || 0) + amount;
+        });
+      } catch (e) {}
     }
-    const totalSupplySel = "0x18160ddd";
-    const raisedSel = "0x0eb62b11";
-    let supply = 0n;
-    let raised = 0n;
-    try { supply = await call(totalSupplySel); } catch (e) {}
-    try { raised = await rpc("eth_call", [{ to: addr, data: "0x" }, "latest"]); } catch (e) {}
     try {
-      const keccak = await fetch("https://polygon-bor-rpc.publicnode.com", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to: addr, data: "0x18160ddd" }, "latest"] })
-      }).then((r) => r.json());
-      supply = BigInt(keccak.result || "0x0");
+      const polWei = BigInt(await rpc("eth_getBalance", [cfg.treasury, "latest"]));
+      const price = await polPrice();
+      window.PAWLIGHT_POL_USD = price;
+      usd += Number(polWei) / 1e18 * price;
     } catch (e) {}
-    return { supply, raised };
+    return { usd, donors };
   }
 
   async function refresh() {
@@ -81,47 +92,70 @@
     const circEl = document.getElementById("liveCirc");
     const priceEl = document.getElementById("livePrice");
     const maxEl = document.getElementById("liveMax");
+    const donorsEl = document.getElementById("liveDonors");
     if (maxEl) maxEl.textContent = "1,000,000,000 PAW";
-    const mintStatus = document.getElementById("mintStatus");
-    if (mintStatus) {
-      mintStatus.textContent = cfg.contract ? ("Live " + cfg.contract.slice(0, 6) + "…" + cfg.contract.slice(-4)) : "Ready — needs ~0.05 POL to deploy";
-    }
     if (priceEl) priceEl.textContent = "$0.001";
     try {
-      const price = await polPrice();
-      window.PAWLIGHT_POL_USD = price;
-      const polWei = BigInt(await rpc("eth_getBalance", [cfg.treasury, "latest"]));
-      const pol = Number(polWei) / 1e18;
-      let usd = pol * price;
-      try { usd += await tokenBal(USDT, TREASURY); } catch (e) {}
-      try { usd += await tokenBal(USDC, TREASURY); } catch (e) {}
-
+      let usd = 0;
       let paw = 0;
+      let donorCount = 0;
       if (cfg.contract) {
         const res = await rpc("eth_call", [{ to: cfg.contract, data: "0x18160ddd" }, "latest"]);
         paw = Number(BigInt(res || "0x0")) / 1e18;
         try {
-          const names = ["totalUsdRaised()"];
-          const sel = "0x2cea9442";
-          const r2 = await rpc("eth_call", [{ to: cfg.contract, data: sel }, "latest"]);
-          const raised = Number(BigInt(r2 || "0x0")) / 1e18;
-          if (raised > usd) usd = raised;
+          const r2 = await rpc("eth_call", [{ to: cfg.contract, data: "0x2cea9442" }, "latest"]);
+          usd = Number(BigInt(r2 || "0x0")) / 1e18;
         } catch (e) {}
-      } else {
-        paw = 0;
       }
+      const incoming = await incomingUsd();
+      if (incoming.usd > usd) usd = incoming.usd;
+      if (!cfg.contract) paw = incoming.usd * PAW_PER_USD;
+      donorCount = Object.keys(incoming.donors).length;
+      window.PAWLIGHT_DONORS = incoming.donors;
       if (donatedEl) donatedEl.textContent = fmtUsd(usd);
       if (circEl) circEl.textContent = fmtPaw(paw);
+      if (donorsEl) donorsEl.textContent = String(donorCount);
       const bar = document.getElementById("supplyBar");
       if (bar) bar.style.width = Math.min(100, (paw / 1e9) * 100) + "%";
+      const mintStatus = document.getElementById("mintStatus");
+      if (mintStatus) {
+        mintStatus.textContent = cfg.contract
+          ? "Minting on Polygon"
+          : "Genesis on-chain — 1000 PAW per $1";
+      }
     } catch (err) {
-      if (donatedEl) donatedEl.textContent = "$0";
+      if (donatedEl) donatedEl.textContent = "$0.00";
       if (circEl) circEl.textContent = "0 PAW";
+    }
+  }
+
+  async function showMyPaw() {
+    const out = document.getElementById("myPaw");
+    const eth = window.ethereum;
+    if (!eth) {
+      if (out) out.textContent = "Open this page in MetaMask to see your genesis PAW.";
+      return;
+    }
+    try {
+      const acc = await eth.request({ method: "eth_requestAccounts" });
+      const me = (acc[0] || "").toLowerCase();
+      if (!window.PAWLIGHT_DONORS) await refresh();
+      const usd = (window.PAWLIGHT_DONORS && window.PAWLIGHT_DONORS[me]) || 0;
+      const paw = usd * PAW_PER_USD;
+      if (out) {
+        out.textContent = usd > 0
+          ? ("Your gifts: " + fmtUsd(usd) + " → " + fmtPaw(paw) + " genesis. Whoever donates, holds the light.")
+          : "No gift from this wallet yet. Send any amount — 1,000 PAW per $1 is written from the chain.";
+      }
+    } catch (e) {
+      if (out) out.textContent = "Wallet closed. Nothing sent.";
     }
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     refresh();
     setInterval(refresh, 20000);
+    const btn = document.getElementById("checkPaw");
+    if (btn) btn.addEventListener("click", showMyPaw);
   });
 })();

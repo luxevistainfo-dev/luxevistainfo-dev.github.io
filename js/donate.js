@@ -252,6 +252,14 @@ function syncUsdFromChip(chip) {
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("donateWallet");
   if (btn) btn.addEventListener("click", donateWithWallet);
+  const hero = document.getElementById("heroDonate");
+  if (hero) {
+    hero.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("donate")?.scrollIntoView({ behavior: "smooth" });
+      setTimeout(donateWithWallet, 450);
+    });
+  }
   const input = document.getElementById("usdInput");
   if (input) {
     input.addEventListener("input", () => {
